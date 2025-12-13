@@ -1,0 +1,13 @@
+# Data
+data/raw/
+data/extracted_images/
+
+# DVC
+.dvc/cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
