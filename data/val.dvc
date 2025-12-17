@@ -1,0 +1,6 @@
+outs:
+- md5: 580da318f680ffb62f96be0a67215ec2.dir
+  size: 873000
+  nfiles: 405
+  hash: md5
+  path: val
