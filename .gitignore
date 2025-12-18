@@ -11,4 +11,5 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
-models/ 
+
+project_structure.txt 
