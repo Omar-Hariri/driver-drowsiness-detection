@@ -11,7 +11,7 @@ import os
 # -------------------------------
 # Load Trained Model
 # -------------------------------
-model = load_model("../models/driver_drowsiness_cnn1.h5")
+model = load_model("../models/cnn_v1/model.h5")
 
 # Optional: class labels
 CLASSES = {0: "NORMAL", 1: "YAWN"}
