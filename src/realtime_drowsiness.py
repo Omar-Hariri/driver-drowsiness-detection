@@ -1,17 +1,17 @@
-# src/realtime_drowsiness.py
-
 import cv2
 import mediapipe as mp
 import numpy as np
-from tensorflow.keras.models import load_model
-import winsound  # optional for alert
+import tensorflow as tf
+
+import winsound  # for alert
 import time
 import os
 
 # -------------------------------
 # Load Trained Model
 # -------------------------------
-model = load_model("../models/cnn_v1/model.h5")
+model = tf.keras.models.load_model(r"D:\SPU\5th s1 Lectures\Practical Deep Learning\model_b\model.h5")
+# model = tf.keras.models.load_model(r"../models/cnn_v3/best.keras")
 
 # Optional: class labels
 CLASSES = {0: "NORMAL", 1: "YAWN"}
@@ -44,7 +44,7 @@ def predict_face_state(face_img, model):
       # Predict
       pred = model.predict(face_img, verbose=0)
       score = float(pred[0][0])
-      predicted_class = 1 if score >= 0.6 else 0
+      predicted_class = 1 if score >= 0.5 else 0
       confidence = score if predicted_class == 1 else 1 - score
       return predicted_class, confidence
    except Exception as e:
@@ -71,7 +71,7 @@ while cap.isOpened():
    if not ret:
       break
 
-   frame = cv2.flip(frame, 1)
+   # frame = cv2.flip(frame, 1)
    h, w, _ = frame.shape
 
    # Convert to RGB for MediaPipe

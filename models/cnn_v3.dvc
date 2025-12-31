@@ -1,0 +1,6 @@
+outs:
+- md5: b4f12414209a97ddf8335643b869f304.dir
+  size: 17338238
+  nfiles: 2
+  hash: md5
+  path: cnn_v3
