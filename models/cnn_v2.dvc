@@ -1,6 +1,0 @@
-outs:
-- md5: 25e77279cb6f261b1e5a7c22f81d27f7.dir
-  size: 17340653
-  nfiles: 2
-  hash: md5
-  path: cnn_v2
