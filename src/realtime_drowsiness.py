@@ -2,17 +2,16 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import tensorflow as tf
+preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
 
-import winsound  # for alert
+import winsound
 import time
-import os
 
 # -------------------------------
 # Load Trained Model
 # -------------------------------
-model = tf.keras.models.load_model(r"D:\SPU\5th s1 Lectures\Practical Deep Learning\model_b\model.h5")
-# model = tf.keras.models.load_model(r"../models/cnn_v3/best.keras")
-
+model = tf.keras.models.load_model(r"..\models\mobilenet4\best.keras")
+print("Model loaded successfully")
 # Optional: class labels
 CLASSES = {0: "NORMAL", 1: "YAWN"}
 
@@ -31,25 +30,47 @@ face_mesh = mp_face_mesh.FaceMesh(
 # -------------------------------
 # Prediction Function
 # -------------------------------
-def predict_face_state(face_img, model):
-   try:
-      # Resize to 64x64
-      face_img = cv2.resize(face_img, (64, 64))
-      # Convert to grayscale
-      face_img = cv2.cvtColor(face_img, cv2.COLOR_BGR2GRAY)
-      # Normalize
-      face_img = face_img.astype("float32") / 255.0
-      # Add batch & channel dimension
-      face_img = np.expand_dims(face_img, axis=(0, -1))  # (1,64,64,1)
-      # Predict
-      pred = model.predict(face_img, verbose=0)
-      score = float(pred[0][0])
-      predicted_class = 1 if score >= 0.5 else 0
-      confidence = score if predicted_class == 1 else 1 - score
-      return predicted_class, confidence
-   except Exception as e:
-      print("Prediction Error:", e)
-      return None, 0.0
+def predict_face_state(face_img, model, model_type="mobilenet"):
+    """
+    model_type: "simple" for the 64x64 grayscale model
+                "mobilenet" for the 224x224 RGB model
+    """
+    try:
+        if model_type == "mobilenet":
+            # 1. Resize to 224x224
+            img = cv2.resize(face_img, (224, 224))
+            # 2. Ensure RGB (MobileNetV2 expects 3 channels)
+            if len(img.shape) == 2: # if grayscale
+                img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+            elif img.shape[2] == 3: # if BGR (OpenCV default)
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            
+            # 3. MobileNet specific preprocessing
+            img = np.expand_dims(img, axis=0)
+            img = preprocess_input(img)
+            
+        else: # Simple Model (Old)
+            # 1. Resize to 64x64
+            img = cv2.resize(face_img, (64, 64))
+            # 2. Convert to grayscale
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            # 3. Normalize & Reshape
+            img = img.astype("float32") / 255.0
+            img = np.expand_dims(img, axis=(0, -1))
+
+        # Prediction
+        pred = model.predict(img, verbose=0)
+        score = float(pred[0][0])
+        
+        # Binary Classification logic
+        predicted_class = 1 if score >= 0.3 else 0
+        confidence = score if predicted_class == 1 else 1 - score
+        
+        return predicted_class, confidence
+
+    except Exception as e:
+        print(f"Prediction Error ({model_type}):", e)
+        return None, 0.0
 
 # -------------------------------
 # Helper: get square bbox from landmarks
