@@ -12,7 +12,9 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-project_structure.txt 
-important_notes.txt
+# Local/Private files
+My_notes.txt
+
+# folders
 notebooks/wandb/
 docs/
