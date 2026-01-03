@@ -1,5 +1,4 @@
 # Driver Drowsiness Detection
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Omar-Hariri/driver-drowsiness-detection)
 
 This repository contains a real-time driver drowsiness detection system built using computer vision and deep learning. The system uses a webcam to monitor the driver's face, detects signs of drowsiness (specifically yawning), and provides an alert. The project includes scripts for data labeling, preprocessing, model training, and a real-time detection application. The project leverages MediaPipe for efficient face detection and MobileNetV2 for classification.
 
