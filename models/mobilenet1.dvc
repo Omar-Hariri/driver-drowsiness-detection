@@ -1,0 +1,6 @@
+outs:
+- md5: 0c3ab08791243b734dfcb2544596f1ec.dir
+  size: 771
+  nfiles: 1
+  hash: md5
+  path: mobilenet1
