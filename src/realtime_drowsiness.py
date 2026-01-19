@@ -92,7 +92,7 @@ while cap.isOpened():
    if not ret:
       break
 
-   # frame = cv2.flip(frame, 1)
+   frame = cv2.flip(frame, 1)
    h, w, _ = frame.shape
 
    # Convert to RGB for MediaPipe
